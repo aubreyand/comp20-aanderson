@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>My Old Kentucky Home</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+<h1 id="title">My Old Kentucky Home</h1>
+
+<video src="https://www.cs.tufts.edu/comp/20/my_old_kentucky_home.mp4" id="music_video" controls></video>
+<div id="lyrics"></div>
+
+<script>
+        lyrics = [ "The sun shines bright in My Old Kentucky Home,\n",
+                "'Tis summer, the people are gay;\n",
+                "The corn-top's ripe and the meadow's in the bloom\n",
+                "While the birds make music all the day.\n",
+                "\n",
+                "The young folks roll on the little cabin floor,\n",
+                "All merry, all happy and bright;\n",
+                "By 'n' by hard times comes a knocking at the door,\n",
+                "Then My Old Kentucky Home, good night!\n",
+                "\n",
+                "Chorus\n",
+                "\n",
+                "Weep no more my lady\n",
+                "Oh weep no more today;\n",
+                "We will sing one song\n",
+                "For My Old Kentucky Home\n",
+                "For My Old Kentucky Home, far away\n"]
+        vid.addEventListner("play", showLyrics(document.getElementById("music_video")[0].currentTime), true);
+        vid.addEventListner("seeked", showLyrics(document.getElementById("music_video")[0].currentTime), true);
+        window.setInterval(showLyrics(document.getElementById("music_video")[0].currentTime), 1000);
+        function showLyrics(time) {
+                if (time > 83) {
+                } else if (time > 79) {
+                        setLine(16);
+                } else if (time > 75) {
+                        setLine(15);
+                } else if (time > 68) {
+                        setLine(14);
+                } else if (time > 63) {
+                        setLine(13);
+                } else if (time > 55) {
+                        setLine(12);
+                } else if (time > 48) {
+                        setLine(8);
+                } else if (time > 42) {
+                        setLine(7);
+                } else if (time > 34) {
+                        setLine(6);
+                } else if (time > 34) {
+                        setLine(5);
+                } else if (time > 28) {
+                        setLine(3);
+                } else if (time > 21) {
+                        setLine(2);
+                } else if (time > 14) {
+                        setLine(1);
+                } else if (time > 7){
+                        setLine(0);
+                }
+                function setLine(line) {
+                        div = document.getElementById("lyrics");
+                        div.innerHTML = "<p>" + lyrics[line] + </p><br/>";"
+                }
+        }
+</script>
+</body>
+</html>	
