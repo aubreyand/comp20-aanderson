@@ -14,23 +14,23 @@
 <div id="lyrics"></div>
 
 <script>
-        lyrics = [ "The sun shines bright in My Old Kentucky Home,\n",
-                "'Tis summer, the people are gay;\n",
-                "The corn-top's ripe and the meadow's in the bloom\n",
-                "While the birds make music all the day.\n",
-                "\n",
-                "The young folks roll on the little cabin floor,\n",
-                "All merry, all happy and bright;\n",
-                "By 'n' by hard times comes a knocking at the door,\n",
-                "Then My Old Kentucky Home, good night!\n",
-                "\n",
-                "Chorus\n",
-                "\n",
-                "Weep no more my lady\n",
-                "Oh weep no more today;\n",
-                "We will sing one song\n",
-                "For My Old Kentucky Home\n",
-                "For My Old Kentucky Home, far away\n"]
+        lyrics = [ "The sun shines bright in My Old Kentucky Home,",
+                "'Tis summer, the people are gay;",
+                "The corn-top's ripe and the meadow's in the bloom",
+                "While the birds make music all the day.",
+                "",
+                "The young folks roll on the little cabin floor,",
+                "All merry, all happy and bright;",
+                "By 'n' by hard times comes a knocking at the door,",
+                "Then My Old Kentucky Home, good night!",
+                "",
+                "Chorus",
+                "",
+                "Weep no more my lady",
+                "Oh weep no more today;",
+                "We will sing one song",
+                "For My Old Kentucky Home",
+                "For My Old Kentucky Home, far away"]
         vid.addEventListner("play", showLyrics(document.getElementById("music_video")[0].currentTime), true);
         vid.addEventListner("seeked", showLyrics(document.getElementById("music_video")[0].currentTime), true);
         window.setInterval(showLyrics(document.getElementById("music_video")[0].currentTime), 1000);
@@ -60,13 +60,14 @@
                         setLine(2);
                 } else if (time > 14) {
                         setLine(1);
-                } else if (time > 7){
+                } else {
                         setLine(0);
                 }
                 function setLine(line) {
                         div = document.getElementById("lyrics");
                         div.innerHTML = "<p>" + lyrics[line] + </p><br/>";"
                 }
+                showLyrics(10);
         }
 </script>
 </body>
