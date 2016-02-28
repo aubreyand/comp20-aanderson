@@ -14,14 +14,15 @@
 <div id="lyrics"></div>
 
 <script>
+        var vid = document.getElementById("music_video");
         lyrics = [ "The sun shines bright in My Old Kentucky Home,\n",
                 "'Tis summer, the people are gay;\n",
                 "The corn-top's ripe and the meadow's in the bloom\n",
-                "While the birds make music all the day.\n",
+                "While the birds make music all the day.\n<br/><img class='image' src='birds.jpg' alt='Birds'/>",
                 "\n",
                 "The young folks roll on the little cabin floor,\n",
                 "All merry, all happy and bright;\n",
-                "By 'n' by hard times comes a knocking at the door,\n",
+                "By 'n' by hard times comes a knocking at the door,\n<br/><img class='image' src='door.jpg' alt='Door'",
                 "Then My Old Kentucky Home, good night!\n",
                 "\n",
                 "Chorus\n",
@@ -30,44 +31,46 @@
                 "Oh weep no more today;\n",
                 "We will sing one song\n",
                 "For My Old Kentucky Home\n",
-                "For My Old Kentucky Home, far away\n"]
-        vid.addEventListner("play", showLyrics(document.getElementById("music_video")[0].currentTime), true);
-        vid.addEventListner("seeked", showLyrics(document.getElementById("music_video")[0].currentTime), true);
-        window.setInterval(showLyrics(document.getElementById("music_video")[0].currentTime), 1000);
-        function showLyrics(time) {
+                "For My Old Kentucky Home, far away\n"];
+        vid.addEventListener("play", showLyrics, true);
+        vid.addEventListener("seeked", showLyrics, true);
+        window.setInterval(showLyrics, 1000);
+
+        function showLyrics() {
+                var time = document.getElementById("music_video").currentTime;
                 if (time > 83) {
-                } else if (time > 79) {
                         setLine(16);
-                } else if (time > 75) {
+                } else if (time > 79) {
                         setLine(15);
-                } else if (time > 68) {
+                } else if (time > 76) {
                         setLine(14);
-                } else if (time > 63) {
+                } else if (time > 69) {
                         setLine(13);
-                } else if (time > 55) {
+                } else if (time > 64) {
                         setLine(12);
-                } else if (time > 48) {
+                } else if (time > 56) {
                         setLine(8);
-                } else if (time > 42) {
+                } else if (time > 49) {
                         setLine(7);
-                } else if (time > 34) {
+                } else if (time > 43) {
                         setLine(6);
-                } else if (time > 34) {
+                } else if (time > 35) {
                         setLine(5);
                 } else if (time > 28) {
                         setLine(3);
-                } else if (time > 21) {
+                } else if (time > 22) {
                         setLine(2);
-                } else if (time > 14) {
+                } else if (time > 15) {
                         setLine(1);
-                } else if (time > 7){
+                } else if (time > 8){
                         setLine(0);
                 }
+        }
                 function setLine(line) {
                         div = document.getElementById("lyrics");
-                        div.innerHTML = "<p>" + lyrics[line] + </p><br/>";"
+                        div.innerHTML = "<p>" + lyrics[line] + "</p><br/>";
                 }
-        }
+        
 </script>
 </body>
 </html>	
