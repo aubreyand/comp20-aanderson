@@ -1,0 +1,25 @@
+#title {
+        font-family:Helvetica;
+        font-size:35px;
+        font-weight:bold;
+        background:darkgreen;
+        width:420px;
+        padding:15px;
+        margin-left:65px;
+        color:lightgray;
+        border-radius:15px
+}
+
+body {
+        background:lightblue;
+}
+.image {
+        width:460px;
+}
+#lyrics {
+        font-size:20px;
+        font-weight:bold;
+        font-family: Helvetica;  
+        padding-left:40px;
+}
+
