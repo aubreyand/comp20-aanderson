@@ -2,13 +2,40 @@
 <html>
     <head>
         <title>Local Landmarks</title>
-        <script src="map.js"/>
-        <script async defer
-            src="https://maps.googleapis.com/maps/api/js?callback=initMap">
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        <script>
+                var map;
+                var myLat;
+                var myLng;
+                var myLoc;
+                var mapOptions = {
+                        zoom:15,
+                        center: myLoc
+                };
+
+                function initMap() {
+                        map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+                        getLocation();
+                }
+                
+                function getLocation(position) {
+                       if (navigator.geolocation) {
+                               navigator.geolocation.getCurrentPosition(function(position) {
+                                       myLat = position.coords.latitude;
+                                       myLng = position.coords.longitude;
+                                       renderMap();
+                               });
+                        }       
+                }
+
+                function renderMap() {
+                        myLoc = new google.maps.LatLng(myLat, myLng);
+                }
         </script>
-        
+        <script src="https://maps.googleapis.com/maps/api/js" async defer></script>
     </head>
-    <body>
-        <div id="map"></div>
+    <body onload="initMap()">
+        <div id="map_canvas"></div>
     </body>
 </html>
