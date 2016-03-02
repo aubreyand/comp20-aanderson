@@ -1,16 +1,9 @@
-#map_canvas {
+html, body {
         height: 100%;
-        width: 100%;
+        margin: 0;
+        padding: 0;
 }
 
-body {
-        height: 100%;
-        width: 100%;
-        margin: 0px;
-        padding: 0px;
-}
-
-html {
-        width: 100%;
+#map {
         height: 100%;
 }
