@@ -43,11 +43,26 @@
 
                 request.onreadystatechange = function() {
                         if (request.readyState == 4 && request.status == 200) {
-                                console.log(request.responseText);
-                                //showPeople();
+                                var response = JSON.parse(request.responseText);
+                                showPeople(response.people);
+                                showLandmarks(response.landmarks)
                         }
                 }
                 request.send(params);
+        }
+
+        function showPeople(people) {
+                for (var i = 0; i < people.length; i++) {
+                        var pos = new google.maps.LatLng(people[i].lat, people[i].lng);
+                        new google.maps.Marker({
+                                position: pos,
+                                map: map
+                        });
+                }        
+        }
+
+        function showLandmarks(landmarks) {
+                        
         }
 
     </script>
