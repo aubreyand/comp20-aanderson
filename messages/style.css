@@ -1,1 +1,13 @@
-/* Your CSS here... */
+body {
+        background: lightgray;
+        font-family: helvetica;
+}
+#messages {
+        height: 100%;
+}
+
+.user {
+        background: lightblue;
+        border-radius:5px;
+        padding:5px;
+}
