@@ -15,6 +15,8 @@
                 var myLoc;
                 var request;
                 var myName = "JIMMIE_HULL";
+                var infoWindow;
+                var contentString = "HI"
 
         function getLocation(position) {
                if (navigator.geolocation) {
@@ -28,6 +30,7 @@
 
         function initMap() {
                  getLocation();
+                 infoWindow = new google.maps.InfoWindow();
                  map = new google.maps.Map(document.getElementById('map'), {
                            center: myLoc,
                            zoom: 15
@@ -45,7 +48,7 @@
                 request.onreadystatechange = function() {
                         if (request.readyState == 4 && request.status == 200) {
                                 var response = JSON.parse(request.responseText);
-                                if (!request.error) {
+                                if (!response.error) {
                                         showPeople(response.people);
                                         showLandmarks(response.landmarks)
                                 }
@@ -54,23 +57,78 @@
                 request.send(params);
         }
 
+        function toRad(num) {
+                return num * Math.PI / 180;
+        }
+
+        function haversine(lat1, lon1, lat2, lon2) {
+                var R = 6371; // km 
+                var phi1 = toRad(lat1);
+                var phi2 = toRad(lat2);
+                var dphi = toRad(lat2-lat1);
+                var dlambda = toRad(lon2-lon1);
+
+                var a = Math.sin(dphi/2) * Math.sin(dphi/2) +
+                                Math.cos(phi1) * Math.cos(phi2) *
+                                        Math.sin(dlambda/2) * Math.sin(dlambda/2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+                var d = R * c;
+                return d * .6214; //miles
+        }
+
+        function getClosestLandmark(location) {
+                return 0;
+        }
+
         function showPeople(people) {
                 var personMarker = "person.png";
+                var myMarker = "flag-icon.png";
                 for (var i = 0; i < people.length; i++) {
                         var pos = new google.maps.LatLng(people[i].lat, people[i].lng);
-                        new google.maps.Marker({
-                                position: pos,
-                                // icon: {scaledSize: new Size(32, 32),
-                                //        url: personMarker},
-                                map: map
-                        });
+                        var marker;
+                        if (people[i].login == myName) {
+                                marker = new google.maps.Marker({
+                                        position: pos,
+                                        icon: {scaledSize: new google.maps.Size(32, 32),
+                                               url: myMarker},
+                                        map: map
+                                });
+                                marker.content = '<div class="person"><h1>' + getClosestLandmark(marker.getPosition()) + '<\h1></div>';
+                        } else {
+                                marker = new google.maps.Marker({
+                                               position: pos,
+                                               icon: {scaledSize: new google.maps.Size(32, 32),
+                                                      url: personMarker},
+                                               map: map
+                                });       
+                                marker.content = '<div class="person"><h1>' + people[i].login + '<\h1><p>' + haversine(myLoc.lat(), myLoc.lng(), pos.lat(), pos.lng()) + '</p></div>';
+                        }
+                         google.maps.event.addListener(marker, 'click', function() {
+                                 infoWindow.setContent(this.content);
+                                 infoWindow.open(this.getMap(), this);
+                         });
                 }        
         }
 
         function showLandmarks(landmarks) {
-                        
+                var poi_icon = "icon_point-of-interest.png";
+                for (var i = 0; i < landmarks.length; i++) {
+                        var pos = new google.maps.LatLng(landmarks[i].geometry.coordinates[1], landmarks[i].geometry.coordinates[0]);
+                        var marker = new google.maps.Marker({
+                                position: pos,
+                                icon: {scaledSize: new google.maps.Size(32, 32),
+                                       url: poi_icon},
+                                map: map
+                        });
+                        marker.content = '<div class="landmark">' + '<h1>' + landmarks[i].properties.Location_Name + '</h1>' + landmarks[i].properties.Details + '</div>';
+                        google.maps.event.addListener(marker, 'click', function() {
+                                infoWindow.setContent(this.content);
+                                infoWindow.open(this.getMap(), this);
+                        });
+                }
+                                
         }
-
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
     async defer></script>
