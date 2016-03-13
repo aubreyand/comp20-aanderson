@@ -17,6 +17,7 @@
             var response;
             var myName = "JIMMIE_HULL";
             var infoWindow;
+            var polyline;
 
             function getLocation(position) {
                 if (navigator.geolocation) {
@@ -81,6 +82,7 @@
                 var closeMark;
                 var minDist = Infinity;
                 var landmarks = response.landmarks;
+                var closeLatLng;
                 if (landmarks.length == 0) {
                     return "<p>No landmarks within 1 mile</p>";
                 }
@@ -89,13 +91,25 @@
                     var pos = new google.maps.LatLng(landmarks[i].geometry.coordinates[1], landmarks[i].geometry.coordinates[0]);
                     var nextDist = haversine(pos.lat(), pos.lng(), myLoc.lat(), myLoc.lng());
                     if (nextDist < minDist) {
+                        closeLatLng = pos;
                         closeMark = next;
                         minDist = nextDist;
                     } 
                 }
+                drawLine(myLoc, closeLatLng);
                 var closeString = "<p>" + closeMark.properties.Location_Name + "<\p><p>" + minDist.toFixed(2)+ " miles away</p>";
                 return closeString;
+            }
 
+            function drawLine(pos1, pos2) {
+                var coords = [
+                    {lat: pos1.lat(), lng: pos1.lng()},
+                    {lat: pos2.lat(), lng: pos2.lng()}
+                ];
+                polyline = new google.maps.Polyline({
+                    path: coords
+                });
+                polyline.setMap(map);
             }
 
             function showPeople(people) {
@@ -116,6 +130,7 @@
                         infoWindow.setContent(marker.content);
                         infoWindow.open(marker.getMap(), marker);
                         google.maps.event.addListener(marker, 'click', function() {
+                            polyline.setVisible(true);
                             infoWindow.setContent(this.content);
                             infoWindow.open(this.getMap(), this);
                         });
@@ -128,6 +143,7 @@
                         });       
                         marker.content = '<div class="person"><h1>' + people[i].login + '<\h1><p>' + haversine(myLoc.lat(), myLoc.lng(), pos.lat(), pos.lng()).toFixed(2) + '</p></div>';
                         google.maps.event.addListener(marker, 'click', function() {
+                            polyline.setVisible(false);
                             infoWindow.setContent(this.content);
                             infoWindow.open(this.getMap(), this);
                         });
@@ -147,6 +163,7 @@
                     });
                     marker.content = '<div class="landmark">' + '<h1>' + landmarks[i].properties.Location_Name + '</h1>' + landmarks[i].properties.Details + '</div>';
                     google.maps.event.addListener(marker, 'click', function() {
+                        polyline.setVisible(false);
                         infoWindow.setContent(this.content);
                         infoWindow.open(this.getMap(), this);
                     });
