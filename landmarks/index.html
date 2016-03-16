@@ -143,7 +143,6 @@
                         });       
                         marker.content = '<div class="person"><h1>' + people[i].login + '<\h1><p>' + haversine(myLoc.lat(), myLoc.lng(), pos.lat(), pos.lng()).toFixed(2) + '</p></div>';
                         google.maps.event.addListener(marker, 'click', function() {
-                            polyline.setVisible(false);
                             infoWindow.setContent(this.content);
                             infoWindow.open(this.getMap(), this);
                         });
@@ -163,7 +162,6 @@
                     });
                     marker.content = '<div class="landmark">' + '<h1>' + landmarks[i].properties.Location_Name + '</h1>' + landmarks[i].properties.Details + '</div>';
                     google.maps.event.addListener(marker, 'click', function() {
-                        polyline.setVisible(false);
                         infoWindow.setContent(this.content);
                         infoWindow.open(this.getMap(), this);
                     });
