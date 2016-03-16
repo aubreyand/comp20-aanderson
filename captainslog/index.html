@@ -11,7 +11,7 @@
                                 var date = localStorage.key(i);
                                 var msg = localStorage.getItem(date);
                                 var log = '<p>' + date + ' - ' + msg + '</p>';
-                                $('#log').append(log);
+                                $('#log').prepend(log);
                         }
 
                         $("#msg").keypress(function(e) {
@@ -19,7 +19,7 @@
                                         var date = new Date();
                                         var msg = $('#msg').val();
                                         var log = '<p>' + date + ' - ' + msg + '</p>';
-                                        $('#log').append(log);
+                                        $('#log').prepend(log);
                                         $('#msg').val('');
                                         localStorage.setItem(date, msg);
                                 }
