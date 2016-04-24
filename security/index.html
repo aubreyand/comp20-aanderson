@@ -7,14 +7,62 @@
         <body>
                 <h2>Security Assessment of Checkins</h2>
                 <hr />
-                <div id=intro>
+                <div id=intro class=para>
                         <h4>Introduction</h4>
-                        <p> This assessment elaborates the security flaws found in
+                        <p>
+                                THIS SHOULD BE LONGER
+                                This assessment elaborates the security flaws found in
                                 Julia Cooper's Checkins client and server. The client
-                                serves to display the locations on a map of
-                                nearby landmarks and people provided by the
-                                server. The server also provides an API for
-                                viewing all checkins from a certain login.
+                                serves to display the locations on a map of nearby
+                                landmarks and people provided by the server. The server
+                                also provides an API for viewing all checkins from a
+                                certain login.
+                        </p>
+                </div>
+                <div id=method class=para>
+                        <h4>Methodology</h4>
+                        <p> 
+                                In order to test the security of the server and the client
+                                I performed two types of testing.  The first type was
+                                blackbox testing. During this phase, I found as many flaws
+                                as I could without looking at the source code. This is the
+                                same information that a potential attacker of this product
+                                would have. The second phase was to examine the source
+                                code of both the client and the server to find any other
+                                potential flaws that may have been missed during the
+                                blackbox phase.
+                        </p>
+                </div>
+                <div id=abstr class=para>
+                        <h4>Abstract of Findings</h4>
+                        <p> 
+                                The security issues on the server arise from not checking
+                                data for the possiblity of malicious input.
+                                Vulnerabilities on the server's index page and in the
+                                client allow an attacker to crash the user's browser or
+                                redirect them to a malicious website.  There is a security
+                                flaw that allows an attacker to search for all the
+                                checkins of all users. This is a major privacy issue as it
+                                allows an attacker to view the most recent location of an
+                                user. Additionally, the display of the most recent
+                                checkins on the server's index index is a potential
+                                privacy issue as it also allows even a naive attacker to
+                                view the location of any user.
+                        </p>
+                </div>
+                <div id=issues class=para>
+                        <h4>Issues Found</h4>
+                        <p>
+                                <ul>
+                                        <li> XSS on index </li>
+                                        <li> Mongo Injection </li>
+                                        <li> Privacy of checkins </li>
+                                </ul>
+                        </p>
+                </div>
+                <div id=conc class=para>
+                        <h4>Conclusion</h4>
+                        <p>
                         </p>
                 </div>
         </body>
