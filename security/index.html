@@ -21,7 +21,7 @@
             <p>
                 According to the landmarks server specification, the
                 product provides a location API which allows a user to
-                send their location and recieve the checkins of other
+                send their location and receive the checkins of other
                 users and landmarks within 1 mile. It also provides a web
                 interface to view the most recent checkins. Finally, it
                 provides an API to request all the checkins of any given
@@ -52,7 +52,7 @@
             <h3>Abstract of Findings</h3>
             <p> 
                 The security issues on the server arise from not checking
-                data for the possiblity of malicious input.
+                data for the possibility of malicious input.
                 Vulnerabilities on the server's index page allow an
                 attacker to crash the user's browser or
                 redirect them to a malicious website.  There is a security
@@ -71,7 +71,7 @@
                 <ol>
                     <li> <h4>Cross-Site Scripting</h4>
                         <ul>
-                            <li> Affects SendLocation POST API, checkins.json GET API, and server's web interface (index page)</li>
+                            <li> Affects sendLocation POST API, checkins.json GET API, and server's web interface (index page)</li>
                             <li> <p>High: This makes the landmarks server a security risk
                                 both to visit and to use its API as malicious code can be
                                 executed on a user's browser.
@@ -79,7 +79,7 @@
                             </li>
                             <li>
                                 <p>
-                                The SendLocation POST API neglects to sanitize user input
+                                The sendLocation POST API neglects to sanitize user input
                                 for the login name. In this way, an attacker could submit
                                 html or javascript instead of an actual login name. The
                                 server's web interface displays the logins without
@@ -98,7 +98,7 @@
                             </p>
                                 <p>
                                     This vulnerability could also be an issue for
-                                    external clients to the POST or GET APIs that recieve
+                                    external clients to the POST or GET APIs that receive
                                     javascript in the login field of the returned JSON
                                     from the APIs. If the client displays the JSON without
                                     sanitizing the login field, then the malicious
@@ -185,49 +185,42 @@
                     </li>
                     <li> <h4>Privacy Concerns</h4>
                         <ul>
-                            <li>Affects client and server web interface (index page)</li>
-                            <li> <p>High: 
+                            <li>Affects all aspects of the product</li>
+                            <li> <p>High: The locations of any user who uses the landmarks
+                                    client is available for anyone to view both on the
+                                    POST API and the web interface. This is a major
+                                    privacy concern because the locations are linked to a
+                                    login name which would allow an attacker to know the
+                                    location of any user.
                             </p>
                             </li>
                             <li>
                                 <p>
-                                    The checkins.json API does not properly sanitize the
-                                    login query parameter. This allows an attacker to
-                                    embed special MongoDB operators in the query. Thus an
-                                    attacker could perform arbitrary queries on the login
-                                    field of the database.
+                                    Any valid request to the sendLocation API returns all
+                                    checkins for all users. A request to the server's
+                                    index page returns a sorted list of the most recent
+                                    checkins including timestamps. This would allow a
+                                    stalker to know the recency with which a user was at
+                                    the stored location. Finally, the checkins.json API
+                                    would allow an attacker to view the checkins for any
+                                    user if they knew the users login name.
                                 </p>
                             <p>
-                                To test this vulnerability, the following request was sent
-                                using a browser:<br/>
-                                <code>
-                                    http://pumpkin-tart-19587.herokuapp.com/checkins.json?login[$ne]
-                                </code><br/>
-                                Which caused all entries for all users to be displayed as
-                                a JSON object.<br/>
                                 <img src=privacy.png alt="Shows that all users locations
                                 are displayed on a map">
                             </p>
                             </li>
                             <li>
                                 <p>
-                                    This flaw can be corrected by sanitizing
-                                    the user input in the login query parameter before
-                                    performing the query. This can be done with the
-                                    following code.<br/>
-                                    <code>
-                                        <pre>
-                                        for (var key in query.body.login) {
-                                            query_login = query.body.login[key];
-                                        }
-                                        db.people.find({login: query_login});
-                                    </pre>
-                                    </code> <br/>
-                                </p>
-                                <p>
-                                    This code ensures that the query parameter is
-                                    preserved while protecting against embedded Mongo
-                                    query operators in the query parameter.
+                                    This privacy flaw can be corrected by allowing users
+                                    to not associate their name with the checkin in order
+                                    to receive landmark data. In the meantime users should
+                                    be urged to use logins that cannot be associated with
+                                    them for the sake of their privacy. Alternatively, A
+                                    user could be assigned an API key and be given the
+                                    option to determine whether they want their checkin to
+                                    be publicized.
+
                                 </p>
                             </li>
                         </ul>
@@ -238,6 +231,17 @@
         <div id=conc class=para>
             <h3>Conclusion</h3>
             <p>
+                The landmarks server has multiple security flaws that make it a large risk
+                for a client to any of the APIs or web interfaces. These problems can be
+                fixed by sanitizing all existing user input in the database and continuing
+                to sanitize user input before it is inserted into the database.
+                This product reveals the location of any user publicly which
+                is a major privacy concern. This could be improved by adding an API key so
+                that only authorized users are allowed to view the locations of other
+                users. Additionally, an optional field could be added to the POST API
+                which allows a user to set the desired visibility of their CHECKIN.
+                A combination of these improvements would greatly increase the security
+                and privacy afforded by this product.
             </p>
         </div>
     </body>
